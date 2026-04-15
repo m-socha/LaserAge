@@ -11,7 +11,8 @@ class GameController(gameModel: GameModel) {
   private def handleInput(inputHandler: InputHandler): Unit = {
     // Position player based on mouse X coordinate
     val targetX = inputHandler.getMouseX
-    gameModel.setPlayerX(targetX)
+    val targetY = inputHandler.getMouseY
+    gameModel.setPlayerPosition(targetX, targetY)
   }
 }
 

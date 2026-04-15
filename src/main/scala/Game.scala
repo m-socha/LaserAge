@@ -40,10 +40,11 @@ class Game {
   }
 
   private def init(): Unit = {
+    canvas.setPreferredSize(new java.awt.Dimension(800, 600))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
-    frame.setSize(800, 600)
-    frame.setResizable(false)
     frame.add(canvas)
+    frame.pack()
+    frame.setResizable(false)
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)
     canvas.requestFocus()

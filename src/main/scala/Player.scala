@@ -7,4 +7,8 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
   def setPlayerX(x: Int): Unit = {
     _x = x
   }
+
+  def setPlayerY(y: Int): Unit = {
+    _y = y
+  }
 }

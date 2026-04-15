@@ -7,14 +7,14 @@ class GameModel {
 
   private val gameWidth = 800
 
-  def movePlayer(dx: Int): Unit = {
-    val newPosition = player.x + dx
-    if (player.x + dx <= 0) {
-      player.moveBy(-player.x)
-    } else if (player.x + player.width + dx >= gameWidth) {
-      player.moveBy(gameWidth - player.width - player.x)
+  def setPlayerX(x: Int): Unit = {
+    val centeredX = x - player.width / 2
+    if (centeredX < 0) {
+      player.setPlayerX(0)
+    } else if (centeredX + player.width > gameWidth) {
+      player.setPlayerX(gameWidth - player.width)
     } else {
-      player.moveBy(dx)
+      player.setPlayerX(centeredX)
     }
   }
 

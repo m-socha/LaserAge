@@ -8,16 +8,14 @@ class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends JPane
   this.setBackground(Color.BLACK)
   this.setFocusable(true)
 
-  this.addKeyListener(new KeyListener {
-    override def keyPressed(e: KeyEvent): Unit = {
-      inputHandler.handleKeyPressed(e.getKeyCode)
+  this.addMouseMotionListener(new MouseMotionListener {
+    override def mouseMoved(e: MouseEvent): Unit = {
+      inputHandler.handleMouseMoved(e.getX, e.getY)
     }
 
-    override def keyReleased(e: KeyEvent): Unit = {
-      inputHandler.handleKeyReleased(e.getKeyCode)
+    override def mouseDragged(e: MouseEvent): Unit = {
+      inputHandler.handleMouseMoved(e.getX, e.getY)
     }
-
-    override def keyTyped(e: KeyEvent): Unit = {}
   })
 
   override def paintComponent(g: Graphics): Unit = {

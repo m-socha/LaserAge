@@ -1,17 +1,14 @@
 import java.awt.event._
 
 class InputHandler {
-  private var keys = scala.collection.mutable.Set[Int]()
+  private var mouseX: Int = 0
+  private var mouseY: Int = 0
 
-  def handleKeyPressed(keyCode: Int): Unit = {
-    keys.add(keyCode)
+  def handleMouseMoved(x: Int, y: Int): Unit = {
+    mouseX = x
+    mouseY = y
   }
 
-  def handleKeyReleased(keyCode: Int): Unit = {
-    keys.remove(keyCode)
-  }
-
-  def isKeyPressed(keyCode: Int): Boolean = {
-    keys.contains(keyCode)
-  }
+  def getMouseX: Int = mouseX
+  def getMouseY: Int = mouseY
 }

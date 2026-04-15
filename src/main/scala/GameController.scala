@@ -9,16 +9,9 @@ class GameController(gameModel: GameModel) {
   }
 
   private def handleInput(inputHandler: InputHandler): Unit = {
-    // Apply input to player movement through the model API.
-    if (inputHandler.isKeyPressed(KeyEvent.VK_LEFT)) {
-      gameModel.movePlayer(-5)
-    }
-    if (inputHandler.isKeyPressed(KeyEvent.VK_RIGHT)) {
-      gameModel.movePlayer(5)
-    }
-    if (inputHandler.isKeyPressed(KeyEvent.VK_SPACE)) {
-      // TODO: Fire bullet
-    }
+    // Position player based on mouse X coordinate
+    val targetX = inputHandler.getMouseX
+    gameModel.setPlayerX(targetX)
   }
 }
 

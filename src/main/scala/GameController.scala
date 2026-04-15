@@ -9,12 +9,12 @@ class GameController(gameModel: GameModel) {
   }
 
   private def handleInput(inputHandler: InputHandler): Unit = {
-    // Apply input to player movement
+    // Apply input to player movement through the model API.
     if (inputHandler.isKeyPressed(KeyEvent.VK_LEFT)) {
-      gameModel.player.x -= 5
+      gameModel.movePlayer(-5)
     }
     if (inputHandler.isKeyPressed(KeyEvent.VK_RIGHT)) {
-      gameModel.player.x += 5
+      gameModel.movePlayer(5)
     }
     if (inputHandler.isKeyPressed(KeyEvent.VK_SPACE)) {
       // TODO: Fire bullet

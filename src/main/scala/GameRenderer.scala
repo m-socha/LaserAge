@@ -6,7 +6,7 @@ class GameRenderer {
 
     // Draw player
     g2d.setColor(Color.WHITE)
-    g2d.fillRect(gameModel.player.x, gameModel.player.y, gameModel.player.width, gameModel.player.height)
+    g2d.fillRect(gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight)
 
     // Draw enemies
     g2d.setColor(Color.RED)

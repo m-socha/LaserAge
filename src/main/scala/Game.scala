@@ -6,8 +6,18 @@ class Game {
   private val targetFPS = 60
   private val frameTime = 1000.0 / targetFPS
 
+  // Model
+  private val gameModel = new GameModel()
+
+  // Controller
+  private val gameController = new GameController(gameModel)
+
+  // Input
+  private val inputHandler = new InputHandler()
+
+  // View
   private val frame = new JFrame("Scala 2D Shooter")
-  private val canvas = new GameCanvas()
+  private val canvas = new GameCanvas(gameModel, inputHandler)
 
   def run(): Unit = {
     println("Game loop initialized")
@@ -16,11 +26,10 @@ class Game {
     while (isRunning) {
       val startTime = System.currentTimeMillis()
 
-      handleInput()
-      update()
-      render()
-      checkCollisions()
-      checkGameState()
+      gameController.update(inputHandler)
+      canvas.repaint()
+
+      if (!frame.isDisplayable()) isRunning = false
 
       val elapsedTime = System.currentTimeMillis() - startTime
       val sleepTime = (frameTime - elapsedTime).toLong
@@ -37,30 +46,8 @@ class Game {
     frame.add(canvas)
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)
+    canvas.requestFocus()
     println("Game initialized")
-  }
-
-  private def handleInput(): Unit = {
-    // TODO: Handle user input (keyboard, mouse)
-  }
-
-  private def update(): Unit = {
-    // TODO: Update game state (player position, enemies, bullets, etc.)
-  }
-
-  private def render(): Unit = {
-    canvas.repaint()
-  }
-
-  private def checkCollisions(): Unit = {
-    // TODO: Check player-enemy collisions
-    // TODO: Check bullet-enemy collisions
-    // TODO: Check enemy-projectile collisions
-  }
-
-  private def checkGameState(): Unit = {
-    // TODO: Check win/lose conditions
-    if (!frame.isDisplayable()) isRunning = false
   }
 
   private def cleanup(): Unit = {
@@ -68,4 +55,5 @@ class Game {
     println("Game closed")
   }
 }
+
 

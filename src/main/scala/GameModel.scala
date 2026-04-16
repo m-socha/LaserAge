@@ -40,8 +40,8 @@ class GameModel {
   def playerHeight: Int = player.height
 
   def updatePositions(): Unit = {
-    // Update bullet positions (move upward)
-    bullets.foreach(bullet => bullet.y -= 5)
+    bullets.foreach(_.move())
+
     // Remove off-screen bullets
     bullets = bullets.filter(_.y > 0)
   }

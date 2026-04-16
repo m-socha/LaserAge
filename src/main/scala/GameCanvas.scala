@@ -18,8 +18,23 @@ class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends JPane
     }
   })
 
+  this.addMouseListener(new MouseListener {
+    override def mouseClicked(e: MouseEvent): Unit = {}
+
+    override def mousePressed(e: MouseEvent): Unit = {
+      if (e.getButton == MouseEvent.BUTTON1) {
+        inputHandler.handleLeftClick()
+      }
+    }
+
+    override def mouseReleased(e: MouseEvent): Unit = {}
+    override def mouseEntered(e: MouseEvent): Unit = {}
+    override def mouseExited(e: MouseEvent): Unit = {}
+  })
+
   override def paintComponent(g: Graphics): Unit = {
     super.paintComponent(g)
     renderer.render(g, gameModel)
   }
 }
+

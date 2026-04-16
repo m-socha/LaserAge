@@ -28,14 +28,22 @@ class GameModel {
     }
   }
 
+  def firePlayerBullet(): Unit = {
+    val bulletX = player.x + player.width / 2 - 2 // Center bullet on player
+    val bulletY = player.y - 10 // Spawn above player
+    bullets += Bullet(bulletX, bulletY)
+  }
+
   def playerX: Int = player.x
   def playerY: Int = player.y
   def playerWidth: Int = player.width
   def playerHeight: Int = player.height
 
   def updatePositions(): Unit = {
-    // TODO: Update enemy positions
-    // TODO: Update bullet positions
+    // Update bullet positions (move upward)
+    bullets.foreach(bullet => bullet.y -= 5)
+    // Remove off-screen bullets
+    bullets = bullets.filter(_.y > 0)
   }
 
   def checkCollisions(): Unit = {
@@ -47,4 +55,5 @@ class GameModel {
     // TODO: Check win/lose conditions
   }
 }
+
 

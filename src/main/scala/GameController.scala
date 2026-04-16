@@ -13,8 +13,14 @@ class GameController(gameModel: GameModel) {
     val targetX = inputHandler.getMouseX
     val targetY = inputHandler.getMouseY
     gameModel.setPlayerPosition(targetX, targetY)
+
+    // Fire bullet on left click
+    if (inputHandler.consumeLeftClick()) {
+      gameModel.firePlayerBullet()
+    }
   }
 }
+
 
 
 

@@ -1,4 +1,5 @@
 class BasicEnemy(startX: Int, startY: Int) extends Enemy(startX, startY, width = 40, height = 40) {
+  def imagePath = "/basic_enemy.png"
   def strength: Int = 2
 
   private var direction: Int = 1

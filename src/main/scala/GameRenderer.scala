@@ -1,6 +1,21 @@
 import java.awt._
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
 
 class GameRenderer {
+  private val imageCache = scala.collection.mutable.Map[String, BufferedImage]()
+
+  private def loadImage(path: String): BufferedImage = {
+    imageCache.getOrElseUpdate(path, {
+      val raw = ImageIO.read(getClass.getResourceAsStream(path))
+      val img = new BufferedImage(raw.getWidth, raw.getHeight, BufferedImage.TYPE_INT_ARGB)
+      val g = img.createGraphics()
+      g.drawImage(raw, 0, 0, null)
+      g.dispose()
+      img
+    })
+  }
+
   def render(g: Graphics, gameModel: GameModel): Unit = {
     val g2d = g.asInstanceOf[Graphics2D]
 
@@ -9,9 +24,8 @@ class GameRenderer {
     g2d.fillRect(gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight)
 
     // Draw enemies
-    g2d.setColor(Color.RED)
     for (enemy <- gameModel.enemies) {
-      g2d.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
+      g2d.drawImage(loadImage(enemy.imagePath), enemy.x, enemy.y, enemy.width, enemy.height, null)
     }
 
     // Draw bullets

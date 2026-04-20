@@ -1,4 +1,5 @@
 abstract class Enemy(var x: Int, var y: Int, val width: Int, val height: Int) {
+  def imagePath: String
   def strength: Int
   private var currentStrength: Int = strength
 

@@ -1,5 +1,6 @@
 import javax.swing._
 import javax.swing.WindowConstants
+import java.awt.image.BufferStrategy
 
 class Game {
   private var isRunning = true
@@ -27,13 +28,14 @@ class Game {
       val startTime = System.currentTimeMillis()
 
       gameController.update(inputHandler)
-      canvas.repaint()
 
-      if (!frame.isDisplayable()) isRunning = false
+      canvas.render()
 
       val elapsedTime = System.currentTimeMillis() - startTime
       val sleepTime = (frameTime - elapsedTime).toLong
       if (sleepTime > 0) Thread.sleep(sleepTime)
+
+      if (!frame.isDisplayable()) isRunning = false
     }
 
     cleanup()
@@ -47,7 +49,12 @@ class Game {
     frame.setResizable(false)
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)
+
+    canvas.createBufferStrategy(2)
+
     canvas.requestFocus()
+    canvas.setIgnoreRepaint(true)
+    frame.setIgnoreRepaint(true)
     println("Game initialized")
   }
 
@@ -56,5 +63,3 @@ class Game {
     println("Game closed")
   }
 }
-
-

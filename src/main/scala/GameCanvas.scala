@@ -1,8 +1,9 @@
 import javax.swing._
 import java.awt._
 import java.awt.event._
+import java.awt.image.BufferStrategy
 
-class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends JPanel {
+class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends Canvas {
   private val renderer = new GameRenderer()
 
   this.setBackground(Color.BLACK)
@@ -32,9 +33,33 @@ class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends JPane
     override def mouseExited(e: MouseEvent): Unit = {}
   })
 
-  override def paintComponent(g: Graphics): Unit = {
-    super.paintComponent(g)
-    renderer.render(g, gameModel)
+  def render(): Unit = {
+    // Get the strategy (created in your Game class after the frame is visible)
+    val bs = this.getBufferStrategy
+
+    if (bs == null) return // Safety check if strategy isn't initialized yet
+
+    val g = bs.getDrawGraphics.asInstanceOf[Graphics2D]
+
+    try {
+      // Clear the background
+      g.setColor(getBackground)
+      g.fillRect(0, 0, getWidth, getHeight)
+
+      // Draw the game
+      renderer.render(g, gameModel)
+    } finally {
+      // Release system resources
+      g.dispose()
+    }
+
+    // Flip the buffer to the screen
+    if (!bs.contentsLost()) {
+      bs.show()
+    }
+
+    // Sync with display for smoother performance on some Linux/Unix systems
+    Toolkit.getDefaultToolkit.sync()
   }
 }
 

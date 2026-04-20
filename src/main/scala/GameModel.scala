@@ -56,7 +56,7 @@ class GameModel {
     ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
 
   def checkCollisions(): Unit = {
-    val hitEnemies = scala.collection.mutable.Set[Enemy]()
+    val destroyedEnemies = scala.collection.mutable.Set[Enemy]()
     val hitBullets = scala.collection.mutable.Set[Bullet]()
 
     // Bullet-enemy collisions
@@ -66,9 +66,12 @@ class GameModel {
       if overlaps(bullet.x, bullet.y, bullet.width, bullet.height,
                   enemy.x,  enemy.y,  enemy.width,  enemy.height)
     } {
-      hitEnemies += enemy
+      enemy.takeDamage(bullet.strength)
       hitBullets += bullet
-      score += 1
+      if (enemy.isDestroyed) {
+        destroyedEnemies += enemy
+        score += 1
+      }
     }
 
     // Player-enemy collisions
@@ -80,7 +83,7 @@ class GameModel {
       gameOver = true
     }
 
-    enemies = enemies.filterNot(hitEnemies.contains)
+    enemies = enemies.filterNot(destroyedEnemies.contains)
     bullets = bullets.filterNot(hitBullets.contains)
   }
 

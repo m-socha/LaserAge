@@ -32,7 +32,7 @@ class GameModel {
   def firePlayerBullet(): Unit = {
     val bulletX = player.x + player.width / 2 - 2 // Center bullet on player
     val bulletY = player.y - 10 // Spawn above player
-    bullets += Bullet(bulletX, bulletY)
+    bullets += new Bullet(bulletX, bulletY, Direction.Up)
   }
 
   def playerX: Int = player.x
@@ -48,7 +48,7 @@ class GameModel {
     bullets.foreach(_.move())
 
     // Remove off-screen bullets
-    bullets = bullets.filter(_.y > 0)
+    bullets = bullets.filter(b => b.y > 0 && b.y < GameConfig.GAME_HEIGHT)
   }
 
   private def overlaps(ax: Int, ay: Int, aw: Int, ah: Int,

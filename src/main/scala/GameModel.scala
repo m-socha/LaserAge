@@ -51,9 +51,37 @@ class GameModel {
     bullets = bullets.filter(_.y > 0)
   }
 
+  private def overlaps(ax: Int, ay: Int, aw: Int, ah: Int,
+                        bx: Int, by: Int, bw: Int, bh: Int): Boolean =
+    ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
+
   def checkCollisions(): Unit = {
-    // TODO: Check player-enemy collisions
-    // TODO: Check bullet-enemy collisions
+    val hitEnemies = scala.collection.mutable.Set[Enemy]()
+    val hitBullets = scala.collection.mutable.Set[Bullet]()
+
+    // Bullet-enemy collisions
+    for {
+      bullet <- bullets
+      enemy  <- enemies
+      if overlaps(bullet.x, bullet.y, bullet.width, bullet.height,
+                  enemy.x,  enemy.y,  enemy.width,  enemy.height)
+    } {
+      hitEnemies += enemy
+      hitBullets += bullet
+      score += 1
+    }
+
+    // Player-enemy collisions
+    for {
+      enemy <- enemies
+      if overlaps(player.x, player.y, player.width, player.height,
+                  enemy.x,  enemy.y,  enemy.width,  enemy.height)
+    } {
+      gameOver = true
+    }
+
+    enemies = enemies.filterNot(hitEnemies.contains)
+    bullets = bullets.filterNot(hitBullets.contains)
   }
 
   def checkGameState(): Unit = {

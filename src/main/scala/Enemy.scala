@@ -6,4 +6,10 @@ abstract class Enemy(var x: Int, var y: Int, val width: Int, val height: Int) {
   def isDestroyed: Boolean = currentStrength <= 0
 
   def move(): Unit
+
+  protected def shoot(): Bullet =
+    new Bullet(x + width / 2 - 2, y + height, Direction.Down)
+
+  def maybeShoot(fire: Bullet => Unit): Unit =
+    if scala.util.Random.nextInt(1000) < 5 then fire(shoot())
 }

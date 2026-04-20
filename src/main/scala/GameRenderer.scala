@@ -20,8 +20,7 @@ class GameRenderer {
     val g2d = g.asInstanceOf[Graphics2D]
 
     // Draw player
-    g2d.setColor(Color.WHITE)
-    g2d.fillRect(gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight)
+    g2d.drawImage(loadImage("/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)
 
     // Draw enemies
     for (enemy <- gameModel.enemies) {

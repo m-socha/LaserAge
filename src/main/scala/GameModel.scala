@@ -1,12 +1,11 @@
 class GameModel {
   private val player = new Player()
-  var enemies = scala.collection.mutable.ListBuffer[Enemy](
-    new BasicEnemy(150, 100),
-    new BasicEnemy(650, 100)
-  )
+  private var waveIndex = 0
+  var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(0).enemies*)
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
   var score = 0
   var gameOver = false
+  var gameWon = false
 
   private val minPlayerY = 400
 
@@ -91,7 +90,12 @@ class GameModel {
   }
 
   def checkGameState(): Unit = {
-    // TODO: Check win/lose conditions
+    if enemies.isEmpty && !gameWon then
+      waveIndex += 1
+      if waveIndex >= Waves.all.size then
+        gameWon = true
+      else
+        enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
   }
 }
 

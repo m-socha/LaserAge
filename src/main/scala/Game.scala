@@ -24,7 +24,7 @@ class Game {
     println("Game loop initialized")
     init()
 
-    while (isRunning && !gameModel.gameOver) {
+    while (isRunning && !gameModel.gameOver && !gameModel.gameWon) {
       val startTime = System.currentTimeMillis()
 
       gameController.update(inputHandler)

@@ -4,11 +4,11 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
   def width: Int = _width
   def height: Int = _height
 
-  def setPlayerX(x: Int): Unit = {
-    _x = x
-  }
+  private var _currentStrength: Int = 1
+  def currentStrength: Int = _currentStrength
+  def takeDamage(): Unit = _currentStrength -= 1
+  def isDestroyed: Boolean = _currentStrength <= 0
 
-  def setPlayerY(y: Int): Unit = {
-    _y = y
-  }
+  def setPlayerX(x: Int): Unit = _x = x
+  def setPlayerY(y: Int): Unit = _y = y
 }

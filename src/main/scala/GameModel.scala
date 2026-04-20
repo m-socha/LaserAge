@@ -60,9 +60,9 @@ class GameModel {
     val destroyedEnemies = scala.collection.mutable.Set[Enemy]()
     val hitBullets = scala.collection.mutable.Set[Bullet]()
 
-    // Bullet-enemy collisions
+    // Bullet-enemy collisions (player bullets only)
     for {
-      bullet <- bullets
+      bullet <- bullets if bullet.direction == Direction.Up
       enemy  <- enemies
       if overlaps(bullet.x, bullet.y, bullet.width, bullet.height,
                   enemy.x,  enemy.y,  enemy.width,  enemy.height)
@@ -73,6 +73,17 @@ class GameModel {
         destroyedEnemies += enemy
         score += 1
       }
+    }
+
+    // Bullet-player collisions (enemy bullets only)
+    for {
+      bullet <- bullets if bullet.direction == Direction.Down
+      if overlaps(bullet.x, bullet.y, bullet.width, bullet.height,
+                  player.x, player.y, player.width, player.height)
+    } {
+      player.takeDamage()
+      hitBullets += bullet
+      if (player.isDestroyed) gameOver = true
     }
 
     // Player-enemy collisions

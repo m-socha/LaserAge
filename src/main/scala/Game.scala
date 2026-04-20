@@ -40,7 +40,7 @@ class Game {
   }
 
   private def init(): Unit = {
-    canvas.setPreferredSize(new java.awt.Dimension(800, 600))
+    canvas.setPreferredSize(new java.awt.Dimension(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.add(canvas)
     frame.pack()

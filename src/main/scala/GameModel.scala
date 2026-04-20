@@ -8,24 +8,22 @@ class GameModel {
   var score = 0
   var gameOver = false
 
-  private val gameWidth = 800
-  private val gameHeight = 600
   private val minPlayerY = 400
 
   def setPlayerPosition(x: Int, y: Int): Unit = {
     val centeredX = x - player.width / 2
     if (centeredX < 0) {
       player.setPlayerX(0)
-    } else if (centeredX + player.width > gameWidth) {
-      player.setPlayerX(gameWidth - player.width)
+    } else if (centeredX + player.width > GameConfig.GAME_WIDTH) {
+      player.setPlayerX(GameConfig.GAME_WIDTH - player.width)
     } else {
       player.setPlayerX(centeredX)
     }
 
     if (y < minPlayerY) {
       player.setPlayerY(minPlayerY)
-    } else if (y > gameHeight - player.height) {
-      player.setPlayerY(gameHeight - player.height)
+    } else if (y > GameConfig.GAME_HEIGHT - player.height) {
+      player.setPlayerY(GameConfig.GAME_HEIGHT - player.height)
     } else {
       player.setPlayerY(y)
     }

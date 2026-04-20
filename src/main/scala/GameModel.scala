@@ -1,8 +1,8 @@
 class GameModel {
   private val player = new Player()
   var enemies = scala.collection.mutable.ListBuffer[Enemy](
-    Enemy(150, 100),
-    Enemy(650, 100)
+    new BasicEnemy(150, 100),
+    new BasicEnemy(650, 100)
   )
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
   var score = 0

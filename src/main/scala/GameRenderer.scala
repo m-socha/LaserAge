@@ -20,8 +20,8 @@ class GameRenderer {
       g2d.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
     }
 
-    // Draw score
+    // Draw wave
     g2d.setColor(Color.WHITE)
-    g2d.drawString(s"Score: ${gameModel.score}", 10, 20)
+    g2d.drawString(s"Wave: ${gameModel.currentWave}", 10, 20)
   }
 }

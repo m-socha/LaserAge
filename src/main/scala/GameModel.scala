@@ -3,7 +3,6 @@ class GameModel {
   private var waveIndex = 0
   var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(0).enemies*)
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
-  var score = 0
   var gameOver = false
   var gameWon = false
 
@@ -33,6 +32,8 @@ class GameModel {
     val bulletY = player.y - 10 // Spawn above player
     bullets += new Bullet(bulletX, bulletY, Direction.Up)
   }
+
+  def currentWave: Int = waveIndex + 1
 
   def playerX: Int = player.x
   def playerY: Int = player.y
@@ -70,7 +71,6 @@ class GameModel {
       hitBullets += bullet
       if (enemy.isDestroyed) {
         destroyedEnemies += enemy
-        score += 1
       }
     }
 

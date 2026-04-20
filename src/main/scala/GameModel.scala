@@ -34,6 +34,7 @@ class GameModel {
   }
 
   def currentWave: Int = waveIndex + 1
+  def playerStrength: Int = player.currentStrength
 
   def playerX: Int = player.x
   def playerY: Int = player.y

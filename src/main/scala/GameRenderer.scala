@@ -20,8 +20,9 @@ class GameRenderer {
       g2d.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
     }
 
-    // Draw wave
+    // Draw HUD
     g2d.setColor(Color.WHITE)
     g2d.drawString(s"Wave: ${gameModel.currentWave}", 10, 20)
+    g2d.drawString(s"Strength: ${gameModel.playerStrength}", 10, 35)
   }
 }

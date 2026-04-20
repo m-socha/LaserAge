@@ -86,15 +86,6 @@ class GameModel {
       if (player.isDestroyed) gameOver = true
     }
 
-    // Player-enemy collisions
-    for {
-      enemy <- enemies
-      if overlaps(player.x, player.y, player.width, player.height,
-                  enemy.x,  enemy.y,  enemy.width,  enemy.height)
-    } {
-      gameOver = true
-    }
-
     enemies = enemies.filterNot(destroyedEnemies.contains)
     bullets = bullets.filterNot(hitBullets.contains)
   }

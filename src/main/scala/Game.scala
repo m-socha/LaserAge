@@ -29,6 +29,8 @@ class Game {
 
       gameController.update(inputHandler)
 
+      updateGameModel()
+
       canvas.render()
 
       val elapsedTime = System.currentTimeMillis() - startTime
@@ -39,6 +41,12 @@ class Game {
     }
 
     cleanup()
+  }
+
+  private def updateGameModel(): Unit = {
+    gameModel.updatePositions()
+    gameModel.checkCollisions()
+    gameModel.checkGameState()
   }
 
   private def init(): Unit = {

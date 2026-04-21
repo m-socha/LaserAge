@@ -37,9 +37,8 @@ class GameRenderer {
     }
 
     // Draw bullets
-    g2d.setColor(Color.YELLOW)
     for (bullet <- gameModel.bullets) {
-      g2d.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
+      g2d.drawImage(loadImage(bullet.imagePath), bullet.x, bullet.y, bullet.width, bullet.height, null)
     }
 
     // Draw HUD

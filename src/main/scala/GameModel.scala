@@ -3,6 +3,7 @@ class GameModel {
   private var waveIndex = 0
   var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(0).enemies*)
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
+  var explosions = scala.collection.mutable.ListBuffer[Explosion]()
   var gameOver = false
   var gameWon = false
 
@@ -47,6 +48,10 @@ class GameModel {
 
     // Remove off-screen bullets
     bullets = bullets.filter(b => b.y > 0 && b.y < GameConfig.GAME_HEIGHT)
+
+    // Update explosions
+    explosions.foreach(_.update())
+    explosions = explosions.filterNot(_.isDone)
   }
 
   private def overlaps(ax: Int, ay: Int, aw: Int, ah: Int,
@@ -66,9 +71,8 @@ class GameModel {
     } {
       enemy.takeDamage(bullet.strength)
       hitBullets += bullet
-      if (enemy.isDestroyed) {
-        destroyedEnemies += enemy
-      }
+      explosions += new Explosion(bullet.x, bullet.y)
+      if (enemy.isDestroyed) destroyedEnemies += enemy
     }
 
     // Bullet-player collisions (enemy bullets only)

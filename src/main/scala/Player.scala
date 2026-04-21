@@ -9,6 +9,11 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
   def takeDamage(): Unit = _currentStrength -= 1
   def isDestroyed: Boolean = _currentStrength <= 0
 
+  def shoot(): Bullet =
+    val bullet = new BasicBullet(0, _y - 10, Direction.Up)
+    bullet.x = _x + _width / 2 - bullet.width / 2
+    bullet
+
   def setPlayerX(x: Int): Unit = _x = x
   def setPlayerY(y: Int): Unit = _y = y
 }

@@ -27,11 +27,7 @@ class GameModel {
     }
   }
 
-  def firePlayerBullet(): Unit = {
-    val bullet = new BasicBullet(0, player.y - 10, Direction.Up)
-    bullet.x = player.x + player.width / 2 - bullet.width / 2
-    bullets += bullet
-  }
+  def firePlayerBullet(): Unit = bullets += player.shoot()
 
   def currentWave: Int = waveIndex + 1
   def playerStrength: Int = player.currentStrength

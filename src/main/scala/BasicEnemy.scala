@@ -9,6 +9,8 @@ class BasicEnemy(startX: Int, startY: Int) extends Enemy(startX, startY, width =
     x += direction * speed
     if (x <= 0 || x + width >= GameConfig.GAME_WIDTH) {
       direction *= -1
+    } else if (scala.util.Random.nextInt(180) == 0) {
+      direction *= -1
     }
   }
 }

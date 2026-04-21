@@ -16,17 +16,17 @@ class GameRenderer {
     })
   }
 
+  private val bg = loadImage("/background.png")
+  private val bgScale = math.max(GameConfig.GAME_WIDTH.toDouble / bg.getWidth, GameConfig.GAME_HEIGHT.toDouble / bg.getHeight)
+  private val bgW = (bg.getWidth * bgScale).toInt
+  private val bgH = (bg.getHeight * bgScale).toInt
+  private val bgX = (GameConfig.GAME_WIDTH - bgW) / 2
+  private val bgY = (GameConfig.GAME_HEIGHT - bgH) / 2
+
   def render(g: Graphics, gameModel: GameModel): Unit = {
     val g2d = g.asInstanceOf[Graphics2D]
 
-    // Draw background (cover: scale uniformly to fill, crop overflow)
-    val bg = loadImage("/background.png")
-    val scale = math.max(GameConfig.GAME_WIDTH.toDouble / bg.getWidth, GameConfig.GAME_HEIGHT.toDouble / bg.getHeight)
-    val drawW = (bg.getWidth * scale).toInt
-    val drawH = (bg.getHeight * scale).toInt
-    val drawX = (GameConfig.GAME_WIDTH - drawW) / 2
-    val drawY = (GameConfig.GAME_HEIGHT - drawH) / 2
-    g2d.drawImage(bg, drawX, drawY, drawW, drawH, null)
+    g2d.drawImage(bg, bgX, bgY, bgW, bgH, null)
 
     // Draw player
     g2d.drawImage(loadImage("/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)

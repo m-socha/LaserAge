@@ -48,8 +48,7 @@ class Game(startWave: Int) {
   }
 
   private def init(): Unit = {
-    SoundManager.preload("/explosion.wav")
-    SoundManager.preload("/basic_bullet.wav")
+    SoundManager.preloadAll()
     SoundManager.playLooping("/music.wav")
 
     canvas.setPreferredSize(new java.awt.Dimension(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT))

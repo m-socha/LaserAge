@@ -7,7 +7,10 @@ object SoundManager {
   private val poolCache = scala.collection.mutable.Map[String, Array[Clip]]()
   private val PoolSize  = 8
 
-  def preload(path: String): Unit =
+  def preloadAll(): Unit =
+    Seq(Sounds.Explosion, Sounds.BasicBullet).foreach(preload)
+
+  private def preload(path: String): Unit =
     try
       val stream = AudioSystem.getAudioInputStream(new java.io.BufferedInputStream(getClass.getResourceAsStream(path)))
       val format = stream.getFormat

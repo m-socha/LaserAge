@@ -13,6 +13,6 @@ abstract class Enemy(var x: Int, var y: Int, val width: Int, val height: Int) {
     bullet.x = x + width / 2 - bullet.width / 2
     bullet
 
-  def maybeShoot(fire: Bullet => Unit): Unit =
-    if scala.util.Random.nextInt(1000) < 5 then fire(shoot())
+  def maybeShoot(): Option[Bullet] =
+    if scala.util.Random.nextInt(1000) < 5 then Some(shoot()) else None
 }

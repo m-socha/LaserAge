@@ -40,7 +40,7 @@ class GameModel {
   def updatePositions(): Unit = {
     // Update enemy positions
     enemies.foreach(_.move())
-    enemies.foreach(_.maybeShoot(bullets += _))
+    enemies.foreach(_.maybeShoot().foreach(bullets += _))
 
     // Update bullet positions
     bullets.foreach(_.move())

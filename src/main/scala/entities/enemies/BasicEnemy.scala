@@ -1,5 +1,5 @@
 class BasicEnemy(startX: Int, startY: Int) extends Enemy(startX, startY, width = 40, height = 40) {
-  def imagePath = "/basic_enemy.png"
+  def imagePath = "/assets/sprites/enemies/basic_enemy.png"
   def strength: Int = 2
   protected def makeBullet(x: Int, y: Int) = new BasicBullet(x - BasicBullet.Width / 2, y, Direction.Down)
 

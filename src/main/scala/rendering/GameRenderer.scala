@@ -20,7 +20,7 @@ class GameRenderer {
   private val playedExplosions = scala.collection.mutable.Set[Explosion]()
   private val playedBullets    = scala.collection.mutable.Set[Bullet]()
 
-  private val bg = loadImage("/background.png")
+  private val bg = loadImage("/assets/backgrounds/background.png")
   private val bgScale = math.max(GameConfig.GAME_WIDTH.toDouble / bg.getWidth, GameConfig.GAME_HEIGHT.toDouble / bg.getHeight)
   private val bgW = (bg.getWidth * bgScale).toInt
   private val bgH = (bg.getHeight * bgScale).toInt
@@ -33,7 +33,7 @@ class GameRenderer {
     g2d.drawImage(bg, bgX, bgY, bgW, bgH, null)
 
     // Draw player
-    g2d.drawImage(loadImage("/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)
+    g2d.drawImage(loadImage("/assets/sprites/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)
 
     // Draw enemies
     for (enemy <- gameModel.enemies) {
@@ -54,7 +54,7 @@ class GameRenderer {
 
     // Play explosion sounds for new explosions, clean up finished ones
     for (e <- gameModel.explosions if !playedExplosions.contains(e)) {
-      SoundManager.play("/explosion.wav")
+      SoundManager.play(Sounds.Explosion)
       playedExplosions += e
     }
     playedExplosions.filterInPlace(gameModel.explosions.contains)

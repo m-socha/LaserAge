@@ -1,4 +1,4 @@
 object Sounds {
-  val Explosion   = "/explosion.wav"
-  val BasicBullet = "/basic_bullet.wav"
+  val Explosion   = "/audio/sfx/explosion.wav"
+  val BasicBullet = "/audio/sfx/basic_bullet.wav"
 }

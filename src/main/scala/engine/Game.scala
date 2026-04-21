@@ -49,7 +49,7 @@ class Game(startWave: Int) {
 
   private def init(): Unit = {
     SoundManager.preloadAll()
-    SoundManager.playLooping("/music.wav")
+    SoundManager.playLooping("/audio/music/music.wav")
 
     canvas.setPreferredSize(new java.awt.Dimension(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)

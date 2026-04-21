@@ -6,7 +6,6 @@ import java.awt.image.BufferStrategy
 class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends Canvas {
   private val renderer = new GameRenderer()
 
-  this.setBackground(Color.BLACK)
   this.setFocusable(true)
 
   this.addMouseMotionListener(new MouseMotionListener {
@@ -42,11 +41,6 @@ class GameCanvas(gameModel: GameModel, inputHandler: InputHandler) extends Canva
     val g = bs.getDrawGraphics.asInstanceOf[Graphics2D]
 
     try {
-      // Clear the background
-      g.setColor(getBackground)
-      g.fillRect(0, 0, getWidth, getHeight)
-
-      // Draw the game
       renderer.render(g, gameModel)
     } finally {
       // Release system resources

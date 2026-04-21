@@ -1,6 +1,4 @@
 import javax.swing._
-import javax.swing.WindowConstants
-import java.awt.image.BufferStrategy
 
 class Game {
   private var isRunning = true

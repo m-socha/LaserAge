@@ -1,5 +1,3 @@
-import java.awt.event._
-
 class InputHandler {
   private var mouseX: Int = 0
   private var mouseY: Int = 0

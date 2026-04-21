@@ -18,6 +18,7 @@ class GameRenderer {
   }
 
   private val playedExplosions = scala.collection.mutable.Set[Explosion]()
+  private val playedBullets    = scala.collection.mutable.Set[Bullet]()
 
   private val bg = loadImage("/background.png")
   private val bgScale = math.max(GameConfig.GAME_WIDTH.toDouble / bg.getWidth, GameConfig.GAME_HEIGHT.toDouble / bg.getHeight)
@@ -43,6 +44,13 @@ class GameRenderer {
     for (bullet <- gameModel.bullets) {
       g2d.drawImage(loadImage(bullet.imagePath), bullet.x, bullet.y, bullet.width, bullet.height, null)
     }
+
+    // Play bullet sounds for new bullets, clean up gone ones
+    for (b <- gameModel.bullets if !playedBullets.contains(b)) {
+      b.soundPath.foreach(SoundManager.play)
+      playedBullets += b
+    }
+    playedBullets.filterInPlace(gameModel.bullets.contains)
 
     // Play explosion sounds for new explosions, clean up finished ones
     for (e <- gameModel.explosions if !playedExplosions.contains(e)) {

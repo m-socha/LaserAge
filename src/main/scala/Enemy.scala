@@ -9,7 +9,9 @@ abstract class Enemy(var x: Int, var y: Int, val width: Int, val height: Int) {
   def move(): Unit
 
   protected def shoot(): Bullet =
-    new BasicBullet(x + width / 2 - 2, y + height, Direction.Down)
+    val bullet = new BasicBullet(0, y + height, Direction.Down)
+    bullet.x = x + width / 2 - bullet.width / 2
+    bullet
 
   def maybeShoot(fire: Bullet => Unit): Unit =
     if scala.util.Random.nextInt(1000) < 5 then fire(shoot())

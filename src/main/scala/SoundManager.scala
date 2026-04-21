@@ -23,6 +23,21 @@ object SoundManager {
       }
     catch case e: Exception => e.printStackTrace()
 
+  private var loopingClip: Option[Clip] = None
+
+  def playLooping(path: String): Unit =
+    try
+      val stream = AudioSystem.getAudioInputStream(new java.io.BufferedInputStream(getClass.getResourceAsStream(path)))
+      val clip   = AudioSystem.getClip()
+      clip.open(stream)
+      clip.loop(Clip.LOOP_CONTINUOUSLY)
+      loopingClip = Some(clip)
+    catch case e: Exception => e.printStackTrace()
+
+  def stopLooping(): Unit =
+    loopingClip.foreach(_.stop())
+    loopingClip = None
+
   def play(path: String): Unit =
     try
       val clips = poolCache(path)

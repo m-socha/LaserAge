@@ -48,6 +48,9 @@ class Game {
   }
 
   private def init(): Unit = {
+    SoundManager.preload("/explosion.wav")
+    SoundManager.playLooping("/music.wav")
+
     canvas.setPreferredSize(new java.awt.Dimension(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.add(canvas)
@@ -62,12 +65,11 @@ class Game {
     canvas.setIgnoreRepaint(true)
     frame.setIgnoreRepaint(true)
 
-    SoundManager.preload("/explosion.wav")
-
     println("Game initialized")
   }
 
   private def cleanup(): Unit = {
+    SoundManager.stopLooping()
     frame.dispose()
     println("Game closed")
   }

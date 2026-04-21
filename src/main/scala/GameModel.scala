@@ -30,7 +30,7 @@ class GameModel {
   def firePlayerBullet(): Unit = {
     val bulletX = player.x + player.width / 2 - 2 // Center bullet on player
     val bulletY = player.y - 10 // Spawn above player
-    bullets += new Bullet(bulletX, bulletY, Direction.Up)
+    bullets += new BasicBullet(bulletX, bulletY, Direction.Up)
   }
 
   def currentWave: Int = waveIndex + 1

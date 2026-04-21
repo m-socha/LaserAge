@@ -61,6 +61,9 @@ class Game {
     canvas.requestFocus()
     canvas.setIgnoreRepaint(true)
     frame.setIgnoreRepaint(true)
+
+    SoundManager.preload("/explosion.wav")
+
     println("Game initialized")
   }
 

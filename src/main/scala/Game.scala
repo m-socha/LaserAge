@@ -1,12 +1,12 @@
 import javax.swing._
 
-class Game {
+class Game(startWave: Int) {
   private var isRunning = true
   private val targetFPS = 60
   private val frameTime = 1000.0 / targetFPS
 
   // Model
-  private val gameModel = new GameModel()
+  private val gameModel = new GameModel(startWave)
 
   // Controller
   private val gameController = new GameController(gameModel)

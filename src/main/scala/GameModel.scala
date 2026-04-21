@@ -1,7 +1,7 @@
-class GameModel {
+class GameModel(startWave: Int) {
   private val player = new Player()
-  private var waveIndex = 0
-  var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(0).enemies*)
+  private var waveIndex = startWave.min(Waves.all.size - 1)
+  var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
   var explosions = scala.collection.mutable.ListBuffer[Explosion]()
   var gameOver = false

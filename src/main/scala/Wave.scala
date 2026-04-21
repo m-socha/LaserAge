@@ -22,4 +22,12 @@ object Waves:
       new BasicEnemy(270, 260),
       new BasicEnemy(340, 120)
     )),
+    Wave(Seq(
+      new BasicEnemy( 40,  60),
+      new BasicEnemy(200, 200),
+      new BasicEnemy(320,  80),
+      new BunnyAlien(100, 150),
+      new BunnyAlien(250,  50),
+      new BunnyAlien(180, 280)
+    )),
   )

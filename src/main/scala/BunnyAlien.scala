@@ -1,6 +1,7 @@
 class BunnyAlien(startX: Int, startY: Int) extends Enemy(startX, startY, width = 40, height = 40) {
   def imagePath = "/bunny_alien.png"
   def strength: Int = 4
+  protected def makeBullet(x: Int, y: Int) = new BasicBullet(x - BasicBullet.Width / 2, y, Direction.Down)
 
   private var dx = 1
   private var dy = 1

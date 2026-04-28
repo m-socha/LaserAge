@@ -1,4 +1,4 @@
-case class Wave(enemies: Seq[Enemy])
+case class Wave(enemies: Seq[Enemy], hasPowerup: Boolean = false)
 
 object Waves:
   val all: Seq[Wave] = Seq(
@@ -21,7 +21,7 @@ object Waves:
       new BasicEnemy(200,  30),
       new BasicEnemy(270, 260),
       new BasicEnemy(340, 120)
-    )),
+    ), hasPowerup = true),
     Wave(Seq(
       new BasicEnemy( 40,  60),
       new BasicEnemy(200, 200),

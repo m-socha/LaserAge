@@ -40,6 +40,12 @@ class GameRenderer {
       g2d.drawImage(loadImage(enemy.imagePath), enemy.x, enemy.y, enemy.width, enemy.height, null)
     }
 
+    // Draw powerups
+    g2d.setColor(Color.RED)
+    for (powerup <- gameModel.powerups) {
+      g2d.fillRect(powerup.x, powerup.y, powerup.width, powerup.height)
+    }
+
     // Draw bullets
     for (bullet <- gameModel.bullets) {
       g2d.drawImage(loadImage(bullet.imagePath), bullet.x, bullet.y, bullet.width, bullet.height, null)

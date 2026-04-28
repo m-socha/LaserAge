@@ -7,6 +7,7 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
   private var _currentStrength: Int = 1
   def currentStrength: Int = _currentStrength
   def takeDamage(): Unit = _currentStrength -= 1
+  def increaseStrength(): Unit = _currentStrength += 1
   def isDestroyed: Boolean = _currentStrength <= 0
 
   def shoot(): Bullet =

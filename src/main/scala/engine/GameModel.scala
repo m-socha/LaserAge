@@ -4,8 +4,13 @@ class GameModel(startWave: Int) {
   var enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
   var bullets = scala.collection.mutable.ListBuffer[Bullet]()
   var explosions = scala.collection.mutable.ListBuffer[Explosion]()
+  var powerups = scala.collection.mutable.ListBuffer[Powerup](spawnPowerups(waveIndex)*)
   var gameOver = false
   var gameWon = false
+
+  private def spawnPowerups(waveIdx: Int): Seq[Powerup] =
+    if Waves.all(waveIdx).hasPowerup then Seq(new Powerup(GameConfig.GAME_WIDTH / 2, 0))
+    else Seq.empty
 
   def setPlayerPosition(x: Int, y: Int): Unit = {
     val centeredX = x - player.width / 2
@@ -47,6 +52,10 @@ class GameModel(startWave: Int) {
     // Remove off-screen bullets
     bullets = bullets.filter(b => b.y > 0 && b.y < GameConfig.GAME_HEIGHT)
 
+    // Update powerups
+    powerups.foreach(_.move())
+    powerups = powerups.filter(_.y < GameConfig.GAME_HEIGHT)
+
     // Update explosions
     explosions.foreach(_.update())
     explosions = explosions.filterNot(_.isDone)
@@ -73,6 +82,29 @@ class GameModel(startWave: Int) {
       if (enemy.isDestroyed) destroyedEnemies += enemy
     }
 
+    // Bullet-powerup collisions (player bullets only)
+    val hitPowerups = scala.collection.mutable.Set[Powerup]()
+    for {
+      bullet  <- bullets if bullet.direction == Direction.Up
+      powerup <- powerups if !powerup.isFalling
+      if overlaps(bullet.x, bullet.y, bullet.width, bullet.height,
+                  powerup.x, powerup.y, powerup.width, powerup.height)
+    } {
+      powerup.startFalling()
+      hitBullets += bullet
+    }
+
+    // Player-powerup collisions (falling powerups only)
+    for {
+      powerup <- powerups if powerup.isFalling
+      if overlaps(player.x, player.y, player.width, player.height,
+                  powerup.x, powerup.y, powerup.width, powerup.height)
+    } {
+      player.increaseStrength()
+      hitPowerups += powerup
+    }
+    powerups = powerups.filterNot(hitPowerups.contains)
+
     // Bullet-player collisions (enemy bullets only)
     for {
       bullet <- bullets if bullet.direction == Direction.Down
@@ -89,12 +121,13 @@ class GameModel(startWave: Int) {
   }
 
   def checkGameState(): Unit = {
-    if enemies.isEmpty && !gameWon then
+    if enemies.isEmpty && powerups.isEmpty && !gameWon then
       waveIndex += 1
       if waveIndex >= Waves.all.size then
         gameWon = true
       else
-        enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
+        enemies  = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
+        powerups = scala.collection.mutable.ListBuffer[Powerup](spawnPowerups(waveIndex)*)
   }
 }
 

@@ -7,8 +7,6 @@ class GameModel(startWave: Int) {
   var gameOver = false
   var gameWon = false
 
-  private val minPlayerY = 400
-
   def setPlayerPosition(x: Int, y: Int): Unit = {
     val centeredX = x - player.width / 2
     if (centeredX < 0) {
@@ -19,8 +17,8 @@ class GameModel(startWave: Int) {
       player.setPlayerX(centeredX)
     }
 
-    if (y < minPlayerY) {
-      player.setPlayerY(minPlayerY)
+    if (y < GameConfig.MIN_PLAYER_Y) {
+      player.setPlayerY(GameConfig.MIN_PLAYER_Y)
     } else if (y > GameConfig.GAME_HEIGHT - player.height) {
       player.setPlayerY(GameConfig.GAME_HEIGHT - player.height)
     } else {

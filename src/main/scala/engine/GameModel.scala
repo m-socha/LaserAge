@@ -31,7 +31,7 @@ class GameModel(startWave: Int) {
     }
   }
 
-  def firePlayerBullet(): Unit = bullets += player.shoot()
+  def firePlayerBullet(): Unit = bullets ++= player.shoot()
 
   def currentWave: Int = waveIndex + 1
   def playerStrength: Int = player.currentStrength

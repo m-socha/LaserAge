@@ -18,10 +18,14 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
 
   def increaseStrength(): Unit = _currentStrength += 1
 
-  def shoot(): Bullet =
-    val bullet = new BasicBullet(0, _y - 10, Direction.Up)
-    bullet.x = _x + _width / 2 - bullet.width / 2
-    bullet
+  def shoot(): Seq[Bullet] =
+    def centered(offsetX: Int = 0): Bullet =
+      val bullet = new BasicBullet(0, _y - 10, Direction.Up)
+      bullet.x = _x + _width / 2 - bullet.width / 2 + offsetX
+      bullet
+    _currentStrength match
+      case 1 => Seq(centered())
+      case _ => Seq(centered()) // TODO: implement higher strength firing patterns
 
   def setPlayerX(x: Int): Unit = _x = x
   def setPlayerY(y: Int): Unit = _y = y

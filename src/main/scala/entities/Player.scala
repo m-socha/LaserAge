@@ -6,9 +6,17 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
 
   private var _currentStrength: Int = 1
   def currentStrength: Int = _currentStrength
-  def takeDamage(): Unit = _currentStrength -= 1
-  def increaseStrength(): Unit = _currentStrength += 1
   def isDestroyed: Boolean = _currentStrength <= 0
+
+  private var _flashTicks = 0
+  def isHit: Boolean = _flashTicks > 0
+  def tickFlash(): Unit = if _flashTicks > 0 then _flashTicks -= 1
+
+  def takeDamage(): Unit =
+    _currentStrength -= 1
+    _flashTicks = 30
+
+  def increaseStrength(): Unit = _currentStrength += 1
 
   def shoot(): Bullet =
     val bullet = new BasicBullet(0, _y - 10, Direction.Up)

@@ -17,6 +17,20 @@ class GameRenderer {
     })
   }
 
+  private def loadWhiteImage(path: String): BufferedImage = {
+    imageCache.getOrElseUpdate(path + "#white", {
+      val src = loadImage(path)
+      val result = new BufferedImage(src.getWidth, src.getHeight, BufferedImage.TYPE_INT_ARGB)
+      val g = result.createGraphics()
+      g.drawImage(src, 0, 0, null)
+      g.setComposite(AlphaComposite.SrcIn)
+      g.setColor(Color.WHITE)
+      g.fillRect(0, 0, src.getWidth, src.getHeight)
+      g.dispose()
+      result
+    })
+  }
+
   private val playedExplosions = scala.collection.mutable.Set[Explosion]()
   private val playedBullets    = scala.collection.mutable.Set[Bullet]()
 
@@ -30,10 +44,16 @@ class GameRenderer {
   def render(g: Graphics, gameModel: GameModel): Unit = {
     val g2d = g.asInstanceOf[Graphics2D]
 
+    val defaultComposite = g2d.getComposite
+
     g2d.drawImage(bg, bgX, bgY, bgW, bgH, null)
 
     // Draw player
     g2d.drawImage(loadImage("/assets/sprites/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)
+    if gameModel.playerHit then
+      g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.45f))
+      g2d.drawImage(loadWhiteImage("/assets/sprites/player.png"), gameModel.playerX, gameModel.playerY, gameModel.playerWidth, gameModel.playerHeight, null)
+      g2d.setComposite(defaultComposite)
 
     // Draw enemies
     for (enemy <- gameModel.enemies) {
@@ -67,7 +87,6 @@ class GameRenderer {
 
     // Draw explosions
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-    val oldComposite = g2d.getComposite
     for (e <- gameModel.explosions) {
       val p = e.progress
       val fade = 1.0f - p
@@ -98,7 +117,7 @@ class GameRenderer {
           Array(Color.WHITE, new Color(255, 200, 50, 0))))
         g2d.fill(new Ellipse2D.Float(cx - coreR, cy - coreR, coreR * 2, coreR * 2))
     }
-    g2d.setComposite(oldComposite)
+    g2d.setComposite(defaultComposite)
     g2d.setStroke(new BasicStroke(1f))
 
     // Draw HUD

@@ -40,8 +40,12 @@ class GameModel(startWave: Int) {
   def playerY: Int = player.y
   def playerWidth: Int = player.width
   def playerHeight: Int = player.height
+  def playerHit: Boolean = player.isHit
 
   def updatePositions(): Unit = {
+    // Tick player flash
+    player.tickFlash()
+
     // Update enemy positions
     enemies.foreach(_.move())
     enemies.foreach(_.maybeShoot().foreach(bullets += _))

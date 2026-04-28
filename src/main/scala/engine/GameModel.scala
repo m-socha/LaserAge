@@ -90,23 +90,14 @@ class GameModel(startWave: Int) {
     bullets = bullets.filterNot(hitBullets.contains)
   }
 
-  private val countdownDuration = 180
-  private var countdownFrames   = 0
-
-  def countdownSeconds: Int = math.ceil(countdownFrames / 60.0).toInt
-
-  def checkGameState(): Unit =
+  def checkGameState(): Unit = {
     if enemies.isEmpty && !gameWon then
-      if countdownFrames > 0 then
-        countdownFrames -= 1
-        if countdownFrames == 0 then
-          enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
+      waveIndex += 1
+      if waveIndex >= Waves.all.size then
+        gameWon = true
       else
-        waveIndex += 1
-        if waveIndex >= Waves.all.size then
-          gameWon = true
-        else
-          countdownFrames = countdownDuration
+        enemies = scala.collection.mutable.ListBuffer[Enemy](Waves.all(waveIndex).enemies*)
+  }
 }
 
 

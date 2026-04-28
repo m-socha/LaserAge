@@ -99,19 +99,5 @@ class GameRenderer {
     g2d.setColor(Color.WHITE)
     g2d.drawString(s"Wave: ${gameModel.currentWave}", 10, 20)
     g2d.drawString(s"Strength: ${gameModel.playerStrength}", 10, 35)
-
-    // Draw wave countdown overlay
-    val secs = gameModel.countdownSeconds
-    if secs > 0 then
-      val cx = GameConfig.GAME_WIDTH / 2
-      val cy = GameConfig.GAME_HEIGHT / 2
-      g2d.setFont(new Font("Arial", Font.BOLD, 72))
-      val label = s"Wave ${gameModel.currentWave}"
-      val num   = secs.toString
-      g2d.setColor(new Color(255, 255, 255, 180))
-      g2d.setFont(new Font("Arial", Font.BOLD, 36))
-      g2d.drawString(label, cx - g2d.getFontMetrics.stringWidth(label) / 2, cy - 20)
-      g2d.setFont(new Font("Arial", Font.BOLD, 72))
-      g2d.drawString(num, cx - g2d.getFontMetrics.stringWidth(num) / 2, cy + 60)
   }
 }

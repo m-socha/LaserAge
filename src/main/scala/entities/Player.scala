@@ -25,6 +25,7 @@ class Player(private var _x: Int = 400, private var _y: Int = 550, private val _
       bullet
     _currentStrength match
       case 1 => Seq(centered())
+      case 2 => Seq(centered(-10), centered(10))
       case _ => Seq(centered()) // TODO: implement higher strength firing patterns
 
   def setPlayerX(x: Int): Unit = _x = x

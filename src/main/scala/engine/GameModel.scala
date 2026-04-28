@@ -7,6 +7,7 @@ class GameModel(startWave: Int) {
   var powerups = scala.collection.mutable.ListBuffer[Powerup](spawnPowerups(waveIndex)*)
   var gameOver = false
   var gameWon = false
+  var powerupsCollected = 0
 
   private def spawnPowerups(waveIdx: Int): Seq[Powerup] =
     if Waves.all(waveIdx).hasPowerup then Seq(new Powerup(GameConfig.GAME_WIDTH / 2, 0))
@@ -105,6 +106,7 @@ class GameModel(startWave: Int) {
                   powerup.x, powerup.y, powerup.width, powerup.height)
     } {
       player.increaseStrength()
+      powerupsCollected += 1
       hitPowerups += powerup
     }
     powerups = powerups.filterNot(hitPowerups.contains)

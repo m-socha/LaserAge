@@ -8,7 +8,7 @@ object SoundManager {
   private val PoolSize  = 8
 
   def preloadAll(): Unit =
-    Seq(Sounds.Explosion, Sounds.BasicBullet).foreach(preload)
+    Seq(Sounds.Explosion, Sounds.BasicBullet, Sounds.Powerup).foreach(preload)
 
   private def preload(path: String): Unit =
     try

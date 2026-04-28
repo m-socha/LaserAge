@@ -33,6 +33,7 @@ class GameRenderer {
 
   private val playedExplosions = scala.collection.mutable.Set[Explosion]()
   private val playedBullets    = scala.collection.mutable.Set[Bullet]()
+  private var seenPowerupsCollected = 0
 
   private val bg = loadImage("/assets/backgrounds/background.png")
   private val bgScale = math.max(GameConfig.GAME_WIDTH.toDouble / bg.getWidth, GameConfig.GAME_HEIGHT.toDouble / bg.getHeight)
@@ -77,6 +78,11 @@ class GameRenderer {
       playedBullets += b
     }
     playedBullets.filterInPlace(gameModel.bullets.contains)
+
+    // Play powerup sound on collection
+    if gameModel.powerupsCollected > seenPowerupsCollected then
+      SoundManager.play(Sounds.Powerup)
+      seenPowerupsCollected = gameModel.powerupsCollected
 
     // Play explosion sounds for new explosions, clean up finished ones
     for (e <- gameModel.explosions if !playedExplosions.contains(e)) {

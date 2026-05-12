@@ -72,11 +72,14 @@ class GameModelTest extends munit.FunSuite:
     assertEquals(model.bullets.head.x, inRange.x)
     assertEquals(model.bullets.head.y, inRange.y)
 
-  test("updatePositions removes powerups once below screen"):
+  test("updatePositions removes falling powerups after crossing below screen"):
     val model = new GameModel(0)
-    val fallingPowerup = new Powerup(100, GameConfig.GAME_HEIGHT)
+    val fallingPowerup = new Powerup(100, GameConfig.GAME_HEIGHT - 4)
     fallingPowerup.startFalling()
     model.powerups = ListBuffer(fallingPowerup)
+
+    model.updatePositions()
+    assertEquals(model.powerups.size, 1)
 
     model.updatePositions()
 

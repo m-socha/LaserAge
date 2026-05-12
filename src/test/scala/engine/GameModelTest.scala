@@ -153,13 +153,14 @@ class GameModelTest extends munit.FunSuite:
     assertEquals(model.gameOver, true)
 
   test("checkGameState advances to next wave when both enemies and powerups are empty"):
+    // GameModel(2) means waveIndex 2, which corresponds to starting on wave 3 (1-indexed currentWave).
     val model = new GameModel(2)
     model.enemies = ListBuffer.empty
     model.powerups = ListBuffer.empty
 
     model.checkGameState()
 
-    // currentWave is 1-indexed; starting at waveIndex 2 (wave 3) advances to wave 4.
+    // A currentWave value of 4 here indicates the wave incremented from 3 to 4.
     assertEquals(model.currentWave, 4)
     assert(model.enemies.nonEmpty)
 

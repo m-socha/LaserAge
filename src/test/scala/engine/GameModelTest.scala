@@ -12,7 +12,7 @@ class GameModelTest extends munit.FunSuite:
     val model = new GameModel(0)
     val y = 420
 
-    model.setPlayerPosition(0, y)
+    model.setPlayerPosition(-40, y)
 
     assertEquals(model.playerX, 0)
     assertEquals(model.playerY, y)
@@ -36,6 +36,17 @@ class GameModelTest extends munit.FunSuite:
 
     assertEquals(model.playerX, expectedCenteredX)
     assertEquals(model.playerY, GameConfig.MIN_PLAYER_Y)
+
+  test("setPlayerPosition keeps player Y when input is within allowed range"):
+    val model = new GameModel(0)
+    val inputX = 200
+    val validY = GameConfig.MIN_PLAYER_Y + 10
+    val expectedCenteredX = inputX - model.playerWidth / 2
+
+    model.setPlayerPosition(inputX, validY)
+
+    assertEquals(model.playerX, expectedCenteredX)
+    assertEquals(model.playerY, validY)
 
   test("setPlayerPosition clamps player Y at bottom boundary"):
     val model = new GameModel(0)
@@ -63,7 +74,7 @@ class GameModelTest extends munit.FunSuite:
 
   test("updatePositions removes powerups once below screen"):
     val model = new GameModel(0)
-    val fallingPowerup = new Powerup(100, GameConfig.GAME_HEIGHT - 2)
+    val fallingPowerup = new Powerup(100, GameConfig.GAME_HEIGHT)
     fallingPowerup.startFalling()
     model.powerups = ListBuffer(fallingPowerup)
 
@@ -81,6 +92,7 @@ class GameModelTest extends munit.FunSuite:
     model.checkCollisions()
 
     assertEquals(model.enemies.size, 1)
+    assertEquals(model.enemies.head.isDestroyed, false)
     assertEquals(model.bullets.size, 0)
     assertEquals(model.explosions.size, 1)
 
@@ -105,6 +117,7 @@ class GameModelTest extends munit.FunSuite:
     model.powerups = ListBuffer(powerup)
     model.bullets = ListBuffer(bullet)
 
+    assertEquals(model.powerups.head.isFalling, false)
     model.checkCollisions()
 
     assertEquals(model.powerups.head.isFalling, true)
@@ -143,6 +156,7 @@ class GameModelTest extends munit.FunSuite:
 
     model.checkGameState()
 
+    // currentWave is 1-indexed; starting at waveIndex 2 (wave 3) advances to wave 4.
     assertEquals(model.currentWave, 4)
     assert(model.enemies.nonEmpty)
 

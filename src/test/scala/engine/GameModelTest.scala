@@ -8,6 +8,17 @@ class GameModelTest extends munit.FunSuite:
     def move(): Unit = ()
     protected def makeBullet(x: Int, y: Int): Bullet = new BasicBullet(x, y, Direction.Down)
 
+  test("setPlayerPosition leaves player coordinates unchanged when clamping is not needed"):
+    val model = new GameModel(0)
+    val inputX = 200
+    val validY = GameConfig.MIN_PLAYER_Y + 10
+    val expectedCenteredX = inputX - model.playerWidth / 2
+
+    model.setPlayerPosition(inputX, validY)
+
+    assertEquals(model.playerX, expectedCenteredX)
+    assertEquals(model.playerY, validY)
+
   test("setPlayerPosition clamps player X at left boundary"):
     val model = new GameModel(0)
     val y = 420
@@ -36,17 +47,6 @@ class GameModelTest extends munit.FunSuite:
 
     assertEquals(model.playerX, expectedCenteredX)
     assertEquals(model.playerY, GameConfig.MIN_PLAYER_Y)
-
-  test("setPlayerPosition keeps player Y when input is within allowed range"):
-    val model = new GameModel(0)
-    val inputX = 200
-    val validY = GameConfig.MIN_PLAYER_Y + 10
-    val expectedCenteredX = inputX - model.playerWidth / 2
-
-    model.setPlayerPosition(inputX, validY)
-
-    assertEquals(model.playerX, expectedCenteredX)
-    assertEquals(model.playerY, validY)
 
   test("setPlayerPosition clamps player Y at bottom boundary"):
     val model = new GameModel(0)

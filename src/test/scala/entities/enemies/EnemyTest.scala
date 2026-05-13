@@ -9,8 +9,12 @@ class EnemyTest extends munit.FunSuite:
   test("takeDamage reduces effective health and isDestroyed flips at zero"):
     val enemy = new DummyEnemy(10, 20, hp = 3)
 
-    enemy.takeDamage(1)
     assertEquals(enemy.isDestroyed, false)
+
+    enemy.takeDamage(1)
+
+    assertEquals(enemy.isDestroyed, false)
+
     enemy.takeDamage(2)
 
     assertEquals(enemy.isDestroyed, true)

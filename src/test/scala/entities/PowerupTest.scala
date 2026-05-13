@@ -4,6 +4,8 @@ class PowerupTest extends munit.FunSuite:
     val initialX = powerup.x
     val initialY = powerup.y
 
+    assertEquals(powerup.isFalling, false)
+
     powerup.move()
 
     assertEquals(powerup.x, initialX + 2)
@@ -27,6 +29,8 @@ class PowerupTest extends munit.FunSuite:
     val powerup = new Powerup(120, 220)
     val initialX = powerup.x
     val initialY = powerup.y
+
+    assertEquals(powerup.isFalling, false)
 
     powerup.startFalling()
     powerup.move()

@@ -23,6 +23,8 @@ class GameModelTest extends munit.FunSuite:
     val model = new GameModel(0)
     val y = 420
 
+    assertNotEquals(model.playerX, 0)
+
     model.setPlayerPosition(-40, y)
 
     assertEquals(model.playerX, 0)
@@ -31,6 +33,8 @@ class GameModelTest extends munit.FunSuite:
   test("setPlayerPosition clamps player X at right boundary"):
     val model = new GameModel(0)
     val y = 420
+
+    assertNotEquals(model.playerX, GameConfig.GAME_WIDTH - model.playerWidth)
 
     model.setPlayerPosition(10_000, y)
 
@@ -43,6 +47,8 @@ class GameModelTest extends munit.FunSuite:
     val lowY = 100
     val expectedCenteredX = inputX - model.playerWidth / 2
 
+    assertNotEquals(model.playerY, GameConfig.MIN_PLAYER_Y)
+
     model.setPlayerPosition(inputX, lowY)
 
     assertEquals(model.playerX, expectedCenteredX)
@@ -53,6 +59,8 @@ class GameModelTest extends munit.FunSuite:
     val inputX = 200
     val tooHighY = 10_000
     val expectedCenteredX = inputX - model.playerWidth / 2
+
+    assertNotEquals(model.playerY, GameConfig.GAME_HEIGHT - model.playerHeight)
 
     model.setPlayerPosition(inputX, tooHighY)
 
@@ -66,6 +74,8 @@ class GameModelTest extends munit.FunSuite:
     val bottomOut = new BasicBullet(30, GameConfig.GAME_HEIGHT, Direction.Down)
     model.bullets = ListBuffer(topOut, inRange, bottomOut)
 
+    assertEquals(model.bullets.size, 3)
+
     model.updatePositions()
 
     assertEquals(model.bullets.size, 1)
@@ -78,7 +88,10 @@ class GameModelTest extends munit.FunSuite:
     fallingPowerup.startFalling()
     model.powerups = ListBuffer(fallingPowerup)
 
+    assertEquals(model.powerups.size, 1)
+
     model.updatePositions()
+
     assertEquals(model.powerups.size, 1)
 
     model.updatePositions()
@@ -91,6 +104,11 @@ class GameModelTest extends munit.FunSuite:
     val bullet = new BasicBullet(enemy.x + 5, enemy.y + 5, Direction.Up)
     model.enemies = ListBuffer(enemy)
     model.bullets = ListBuffer(bullet)
+
+    assertEquals(enemy.isDestroyed, false)
+    assertEquals(model.enemies.size, 1)
+    assertEquals(model.bullets.size, 1)
+    assertEquals(model.explosions.size, 0)
 
     model.checkCollisions()
 
@@ -107,6 +125,10 @@ class GameModelTest extends munit.FunSuite:
     model.enemies = ListBuffer(enemy)
     model.bullets = ListBuffer(bullet1, bullet2)
 
+    assertEquals(model.enemies.size, 1)
+    assertEquals(model.bullets.size, 2)
+    assertEquals(model.explosions.size, 0)
+
     model.checkCollisions()
 
     assertEquals(model.enemies.size, 0)
@@ -120,7 +142,10 @@ class GameModelTest extends munit.FunSuite:
     model.powerups = ListBuffer(powerup)
     model.bullets = ListBuffer(bullet)
 
+    assertEquals(model.powerups.size, 1)
+    assertEquals(model.bullets.size, 1)
     assertEquals(model.powerups.head.isFalling, false)
+
     model.checkCollisions()
 
     assertEquals(model.powerups.head.isFalling, true)
@@ -134,6 +159,9 @@ class GameModelTest extends munit.FunSuite:
     val initialStrength = model.playerStrength
     model.powerups = ListBuffer(powerup)
 
+    assertEquals(model.powerupsCollected, 0)
+    assertEquals(model.powerups.size, 1)
+
     model.checkCollisions()
 
     assertEquals(model.playerStrength, initialStrength + 1)
@@ -145,6 +173,10 @@ class GameModelTest extends munit.FunSuite:
     model.setPlayerPosition(200, 420)
     val enemyBullet = new BasicBullet(model.playerX + 1, model.playerY + 1, Direction.Down)
     model.bullets = ListBuffer(enemyBullet)
+
+    assertEquals(model.playerHit, false)
+    assertEquals(model.gameOver, false)
+    assertEquals(model.bullets.size, 1)
 
     model.checkCollisions()
 
@@ -158,6 +190,8 @@ class GameModelTest extends munit.FunSuite:
     model.enemies = ListBuffer.empty
     model.powerups = ListBuffer.empty
 
+    assertEquals(model.currentWave, 3)
+
     model.checkGameState()
 
     // A currentWave value of 4 here indicates the wave incremented from 3 to 4.
@@ -170,6 +204,8 @@ class GameModelTest extends munit.FunSuite:
     model.enemies = ListBuffer.empty
     model.powerups = ListBuffer.empty
 
+    assertEquals(model.gameWon, false)
+
     model.checkGameState()
 
     assertEquals(model.gameWon, true)
@@ -180,6 +216,9 @@ class GameModelTest extends munit.FunSuite:
     model.enemies = ListBuffer(new BasicEnemy(25, 25))
     model.powerups = ListBuffer.empty
 
+    assert(model.enemies.nonEmpty)
+    assertEquals(model.currentWave, initialWave)
+
     model.checkGameState()
 
     assertEquals(model.currentWave, initialWave)
@@ -189,6 +228,9 @@ class GameModelTest extends munit.FunSuite:
     val initialWave = model.currentWave
     model.enemies = ListBuffer.empty
     model.powerups = ListBuffer(new Powerup(50, 50))
+
+    assertEquals(model.powerups.size, 1)
+    assertEquals(model.powerups.head.isFalling, false)
 
     model.checkGameState()
 
@@ -201,6 +243,8 @@ class GameModelTest extends munit.FunSuite:
     p.startFalling()
     model.enemies = ListBuffer.empty
     model.powerups = ListBuffer(p)
+
+    assertEquals(model.powerups.head.isFalling, true)
 
     model.checkGameState()
 

@@ -8,6 +8,9 @@ class PlayerTest extends munit.FunSuite:
     val startingStrength = 2
     val player = playerWithStrength(startingStrength)
 
+    assertEquals(player.currentStrength, startingStrength)
+    assertEquals(player.isHit, false)
+
     player.takeDamage()
 
     assertEquals(player.currentStrength, startingStrength - 1)
@@ -17,6 +20,8 @@ class PlayerTest extends munit.FunSuite:
     val startingStrength = 2
     val player = playerWithStrength(startingStrength)
 
+    assertEquals(player.currentStrength, startingStrength)
+
     player.increaseStrength()
 
     assertEquals(player.currentStrength, startingStrength + 1)
@@ -24,6 +29,9 @@ class PlayerTest extends munit.FunSuite:
   test("isDestroyed becomes true when strength reaches zero or less"):
     val startingStrength = 1
     val player = playerWithStrength(startingStrength)
+
+    assertEquals(player.currentStrength, startingStrength)
+    assertEquals(player.isDestroyed, false)
 
     player.takeDamage()
 

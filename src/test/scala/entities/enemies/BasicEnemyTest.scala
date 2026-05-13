@@ -1,9 +1,10 @@
 class BasicEnemyTest extends munit.FunSuite:
-  private class ShootableBasicEnemy(startX: Int, startY: Int) extends BasicEnemy(startX, startY):
+  private class ShootableBasicEnemy(startX: Int, startY: Int)
+      extends BasicEnemy(startX, startY, BasicEnemyRandomnessPolicy.NeverReverse):
     def shootNow(): Bullet = shoot()
 
   test("move changes X only (no vertical movement)"):
-    val enemy = new BasicEnemy(100, 120)
+    val enemy = new BasicEnemy(100, 120, BasicEnemyRandomnessPolicy.NeverReverse)
     val initialX = enemy.x
     val initialY = enemy.y
 
@@ -13,7 +14,7 @@ class BasicEnemyTest extends munit.FunSuite:
     assertEquals(enemy.y, initialY)
 
   test("move reverses direction on horizontal boundary"):
-    val enemy = new BasicEnemy(GameConfig.GAME_WIDTH - 40, 100)
+    val enemy = new BasicEnemy(GameConfig.GAME_WIDTH - 40, 100, BasicEnemyRandomnessPolicy.NeverReverse)
     val initialY = enemy.y
 
     enemy.move()

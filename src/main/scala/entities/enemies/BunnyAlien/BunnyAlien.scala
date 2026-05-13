@@ -1,4 +1,5 @@
-class BunnyAlien(startX: Int, startY: Int) extends Enemy(startX, startY, width = 40, height = 40) {
+class BunnyAlien(startX: Int, startY: Int, randomnessPolicy: BunnyAlienRandomnessPolicy = BunnyAlienRandomnessPolicy.Default)
+  extends Enemy(startX, startY, width = 40, height = 40) {
   def imagePath = "/assets/sprites/enemies/bunny_alien.png"
   def strength: Int = 4
   protected def makeBullet(x: Int, y: Int) = new BasicBullet(x - BasicBullet.Width / 2, y, Direction.Down)
@@ -12,8 +13,8 @@ class BunnyAlien(startX: Int, startY: Int) extends Enemy(startX, startY, width =
     x += dx * speed
     y += dy * speed
     if (x <= 0 || x + width >= GameConfig.GAME_WIDTH) dx *= -1
-    else if (scala.util.Random.nextInt(180) == 0)      dx *= -1
-    if (y <= 0 || y + height >= maxY)                 dy *= -1
-    else if (scala.util.Random.nextInt(180) == 0)      dy *= -1
+    else if (randomnessPolicy.shouldRandomlyReverseXDirection()) dx *= -1
+    if (y <= 0 || y + height >= maxY) dy *= -1
+    else if (randomnessPolicy.shouldRandomlyReverseYDirection()) dy *= -1
   }
 }
